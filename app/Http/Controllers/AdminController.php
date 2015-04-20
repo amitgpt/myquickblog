@@ -12,6 +12,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use App\Fileentry;
+use Session;
 
 use App\Contus;
 use Auth;
@@ -55,7 +56,7 @@ class AdminController extends Controller {
 			$validator = Validator::make(Input::all(), $rules);
 	    		if($validator->fails()){
 					return redirect()->back()->withErrors($validator)->withInput();
-				}else{
+				}
 				$userdata = array(
 					'email'    => Input::get('email'),
 					'password' => Input::get('password'));
@@ -64,9 +65,13 @@ class AdminController extends Controller {
 				{
 						return redirect('/admin/dashboard');
 				}else{
+						
+						Session::flash('message', 'email or password is wrong');
+						
 					    return redirect('/login');
 					 }
-				}
+				
+				
 	}
 
 	
