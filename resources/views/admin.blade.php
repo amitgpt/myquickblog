@@ -9,19 +9,19 @@
 		@include('pages.admin.dashboard')
 		
 	@elseif($page=='home')
-		@include('pages.admin.hom.home')
+		@include('pages.admin.home')
 	
 	@elseif($page=='about')
-		@include('pages.admin.abot.about')
+		@include('pages.admin.about')
 		
 	@elseif($page=='contact')
-		@include('pages.admin.cont.contact')
+		@include('pages.admin.contact')
 		
 	@elseif($page=='post')
-		@include('pages.admin.pos.post')
+		@include('pages.admin.post')
 		
 	@elseif($page=='menu')
-		@include('pages.admin.men.menu')
+		@include('pages.admin.menu')
 	
 		
 	@endif

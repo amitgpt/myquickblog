@@ -9,38 +9,13 @@ window.onload = function() {
   
 };
 </script>
-
-<div class="row">
-				     <nav>
-						<div class="nav-wrapper teal"  style="padding-left: 240px;">
-						  <a href="#" class="brand-logo"></a>
-						  <ul id="nav-mobile" class="right hide-on-med-and-down">
-							<li><a class="white-text" href="sass.html"></a></li>
-							<li><a class="white-text" href="components.html"></a></li>
-							<li><a class="white-text" href="/logout">Logout</a></li>
-						  </ul>
-						</div>
-					  </nav>
-					
-					
-					<div class="col s2 grey darken-4 sidebar1">
-					
-						 <ul id="slide-out" class="side-nav fixed center grey darken-4">
-							 <li><a class="white-text" href="/admin/dashboard">Dashboard</a></li>
-							<li><a class="white-text" href="/admin/home">Home</a></li>
-							<li><a class="white-text" href="/admin/about">About</a></li>
-							<li><a class="white-text" href="/admin/contact">Contact</a></li>
-							<li><a class="white-text" href="/admin/post">Post</a></li>
-							<li><a class="white-text" href="/admin/menu">Menu</a></li>
-						  </ul>
-						  <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-					</div>
-					
+	 <div class="container">
+        <div class="section">
 				<!-- Modal Trigger -->
-				 <button class="btn-floating btn-large waves-effect waves-light teal" style="margin-top:25px; margin-left:1000px;" id="btncontact" data-target="modal1" class="btn modal-trigger" type="submit" name="action"><i class="mdi-content-add"></i></button>
-					 
+				<a href="#modal1" class="btn-floating btn-large waves-effect waves-light modal-trigger right"  id="btncontact" data-target="modal1" class="btn modal-trigger" type="submit" name="action"><i class="mdi-content-add"></i></a>
+					</br> 
 				 <!-- Modal Structure -->
-					<div id="modal1" class="modal">
+					<div id="modal1" class="modal mymodal">
 						<div class="modal-content">
 						  <h4>Contact Content</h4>
 						  <div class="row">
@@ -96,14 +71,15 @@ window.onload = function() {
 									</div>
 								</div>
 									<div class="modal-footer">
+										 <button class="waves-effect waves-teal btn-flat" type="submit" name="action">Save</button>
 									  <button class="waves-effect waves-teal btn-flat modal-close" type="button" name="action">Cancel</button>
-									  <button class="waves-effect waves-teal btn-flat" type="submit" name="action">Save</button>
 									</div>
 						
 						 </form>
 					</div>
+					
 				<!-- End Modal Structure -->
-						<div class="responsive-table col s10"  style="margin-top:25px;   padding-left:50px;">
+						<div class="responsive-table col s10"  style="margin-top:25px;   padding-left:10rem;">
 							<table>
 								<thead>
 								  <tr>
@@ -130,55 +106,14 @@ window.onload = function() {
 									<td>Off</td>
 									@endif
 									<td><img src="/images/{{$getcontact->image}}" width="100px" height="80px"></td>
-									<td><a class="alert-link updatecontact" data-id="{{$getcontact->id}}" data-title="{{$getcontact->title}}" data-sub-title="{{$getcontact->sub_title}}" data-content="{{$getcontact->content}}" data-image="/images/{{$getcontact->image}}" data-status="{{$getcontact->status}}">Update</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/admin/contact/delete/{{$getcontact->id}}" onclick="return confirm('Are you sure you want to delete?');">Delete</a></td>
+									<td><a href="#modal1"class="modal-trigger alert-link updatecontact" data-id="{{$getcontact->id}}" data-title="{{$getcontact->title}}" data-sub-title="{{$getcontact->sub_title}}" data-content="{{$getcontact->content}}" data-image="/images/{{$getcontact->image}}" data-status="{{$getcontact->status}}">Update</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/admin/contact/delete/{{$getcontact->id}}" onclick="return confirm('Are you sure you want to delete?');">Delete</a></td>
 								  </tr>
 								</tbody>
 								@endforeach
 						   </table>
 						</div>
-</div>  
-
-<script>
-
-
-	
-$('#btncontact').click(function(){
-	$('#modal1').openModal();
-	$('.err').hide();
-	$('#id').val('');
-	$('#title').val('');
-	$('#sub_title').val('');
-	CKEDITOR.instances['content'].setData('');
-	$('#contimage').hide();
-	
-});
+					</div>
+				</div>
 
 
-
-$('.updatecontact').click(function(){
-	$('#modal1').openModal();
-	$('#contimage').show();
-	$('.err').hide();
-	$('#id').val($(this).attr('data-id'));
-	$('#title').val($(this).attr('data-title'));
-	$('#sub_title').val($(this).attr('data-sub-title'));
-	$('#title').focus();	
-	$('#sub_title').focus();
-	CKEDITOR.instances['content'].setData($(this).attr('data-content'));
-	$('#contimage').attr('src',$(this).attr('data-image'));
-	if(($(this).attr('data-status'))=='1')
-	$('#filled-in-box').prop('checked', true);
-	else
-	$('#filled-in-box').prop('checked', false);
-});
-
-
-$( document ).ready(function() {
-	if($('.err').text()!="")
-	{
-		$('#modal1').openModal();
-	} 
-});
-
-</script>
 

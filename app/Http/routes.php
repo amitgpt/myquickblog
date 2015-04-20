@@ -13,12 +13,14 @@ use App\Posts;
 
 Route::get('test', function(){
 	
-		$post = 'i m @here #for @demo text ? all';
+	return view('test');
+	/*	$post = 'i m @here #for @demo text ? all';
 		$post = preg_replace('/[^A-Za-z0-9\. -]/', '', $post);
 		$post = str_limit($post, 30);
 		echo '<pre>';
 		print_r($post);
 		die;
+		* */
 		
 });
 
