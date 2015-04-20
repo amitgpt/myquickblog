@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use App\Fileentry;
+use Session;
 
 use App\Contus;
 use Auth;
@@ -52,7 +56,7 @@ class AdminController extends Controller {
 			$validator = Validator::make(Input::all(), $rules);
 	    		if($validator->fails()){
 					return redirect()->back()->withErrors($validator)->withInput();
-				}else{
+				}
 				$userdata = array(
 					'email'    => Input::get('email'),
 					'password' => Input::get('password'));
@@ -61,9 +65,13 @@ class AdminController extends Controller {
 				{
 						return redirect('/admin/dashboard');
 				}else{
+						
+						Session::flash('message', 'email or password is wrong');
+						
 					    return redirect('/login');
 					 }
-				}
+				
+				
 	}
 
 	
@@ -87,6 +95,16 @@ class AdminController extends Controller {
 						'sub_title' => 'required'
 					]
            );
+          if(Input::hasFile('file')){
+			  $validator = Validator::make(
+					[
+						'file'     =>Input::file('file')
+					],
+					[
+						'file'     => 'required|image|mimes:jpeg,jpg,png,bmp'
+						
+					]);
+		}
 			if ($validator->fails()){
 					return redirect()->back()->withErrors($validator->errors());
 				}else{
@@ -95,6 +113,9 @@ class AdminController extends Controller {
 						}else{
 							$home = Homes::find(Input::get('id'));
 						}
+						
+						
+						
 						if(Input::hasFile('file')){
 							$file = Input::file('file');
 							$destinationPath = 'images/';
@@ -148,6 +169,16 @@ class AdminController extends Controller {
 						'content'   => 'required'
 					]
            );
+            if(Input::hasFile('file')){
+			  $validator = Validator::make(
+					[
+						'file'     =>Input::file('file')
+					],
+					[
+						'file'     => 'required|image|mimes:jpeg,jpg,png,bmp'
+						
+					]);
+			}
 			if ($validator->fails()){
 				return redirect()->back()->withErrors($validator->errors());
 				}else{
@@ -209,6 +240,16 @@ class AdminController extends Controller {
 						'content'   => 'required'
 					]
            );
+            if(Input::hasFile('file')){
+			  $validator = Validator::make(
+					[
+						'file'     =>Input::file('file')
+					],
+					[
+						'file'     => 'required|image|mimes:jpeg,jpg,png,bmp'
+						
+					]);
+			}
 			if ($validator->fails()){
 				return redirect()->back()->withErrors($validator->errors());
 				}else{
@@ -270,6 +311,16 @@ class AdminController extends Controller {
 						'content'   => 'required'
 					]
            );
+            if(Input::hasFile('file')){
+			  $validator = Validator::make(
+					[
+						'file'     =>Input::file('file')
+					],
+					[
+						'file'     => 'required|image|mimes:jpeg,jpg,png,bmp'
+						
+					]);
+		}
 			if ($validator->fails()){
 				return redirect()->back()->withErrors($validator->errors());
 				}else{
@@ -329,6 +380,7 @@ class AdminController extends Controller {
 						'path' => 'required'
 					]
            );
+           
 			if ($validator->fails()){
 				return redirect()->back()->withErrors($validator->errors());
 				}else{

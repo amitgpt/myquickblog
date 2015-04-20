@@ -27,13 +27,16 @@
   </nav>
 
 <div class="row">
-	<div class="col s12 m6" style="margin-top:25px; margin-left:500px;">
-		 <div class="card blue-grey darken-1 col  s12 m6 l6">
+	<div class="col s12 m6" style="margin-top:3.1rem; margin-left:27rem;">
+		 <div class="card blue-grey darken-1 col  s12 m6 l9">
 			  <div class="card-content white-text  center">
 				  <span class="card-title">Login</span>
 					  <form action="/login" method="post">
 						<div class="row">
 							@include('errors.validation')
+							@if(Session::has('message'))
+							<div class="alert alert-info red">{{session::get('message')}}</div>
+							@endif
 						</div>
 						<input id="csrf_token" type="hidden" name="_token" value="{{ csrf_token() }}">
 						<div class="row">
@@ -46,21 +49,19 @@
 					  <div class="row">
 						<div class="input-field col s12">
 						  <i class="mdi-action-lock-outline prefix"></i>
-						  <input id="email" type="password" name="password" value="{{old('password')}}" class="validate">
+						  <input id="email" type="password" name="password" class="validate">
 						  <label for="password">Password</label>
 						</div>
 					  </div>
 					   <div class="row">
-							<div class="col s4">
-							  <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+							 <center><button class="btn waves-effect waves-light" type="submit" name="action">Submit
 									<i class="mdi-content-send right"></i>
-							  </button>
-						   </div>
+							  </button></center>
 					  </div>
 					</form>
 				</div>
 				<div class="card-action">
-				  <a href="/forgotpassword">Forgot Password ? </a>
+				 <center><a href="{{url('/password/email')}}">Forgot Password ? </a></center>
 				</div>
           </div>
     </div>

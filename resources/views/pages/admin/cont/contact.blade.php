@@ -72,8 +72,6 @@ window.onload = function() {
 									  
 									   <div class="row">
 											<div class="input-field col s12">
-											  <!--<textarea id="textarea1" name="content" class="materialize-textarea"></textarea>
-											  <label for="textarea1">Content</label>-->
 											  <textarea id="content" name="content" class="materialize-textarea"></textarea>
 											</div>
 										</div>
@@ -146,10 +144,11 @@ window.onload = function() {
 	
 $('#btncontact').click(function(){
 	$('#modal1').openModal();
+	$('.err').hide();
 	$('#id').val('');
 	$('#title').val('');
 	$('#sub_title').val('');
-	$('#content').val('');
+	CKEDITOR.instances['content'].setData('');
 	$('#contimage').hide();
 	
 });
@@ -159,10 +158,13 @@ $('#btncontact').click(function(){
 $('.updatecontact').click(function(){
 	$('#modal1').openModal();
 	$('#contimage').show();
+	$('.err').hide();
 	$('#id').val($(this).attr('data-id'));
 	$('#title').val($(this).attr('data-title'));
 	$('#sub_title').val($(this).attr('data-sub-title'));
-	$('#content').val($(this).attr('data-content'));
+	$('#title').focus();	
+	$('#sub_title').focus();
+	CKEDITOR.instances['content'].setData($(this).attr('data-content'));
 	$('#contimage').attr('src',$(this).attr('data-image'));
 	if(($(this).attr('data-status'))=='1')
 	$('#filled-in-box').prop('checked', true);
@@ -170,10 +172,13 @@ $('.updatecontact').click(function(){
 	$('#filled-in-box').prop('checked', false);
 });
 
-// Initialize collapse button
- // $('.button-collapse').sideNav();
-  // Initialize collapsible (uncomment the line below if you use the dropdown variation)
-  //$('.collapsible').collapsible();
+
+$( document ).ready(function() {
+	if($('.err').text()!="")
+	{
+		$('#modal1').openModal();
+	} 
+});
 
 </script>
 

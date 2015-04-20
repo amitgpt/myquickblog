@@ -17,10 +17,13 @@
   <link href="/assets/admin/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <!--custom css-->
   <link href="/assets/admin/custom.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+   <link href="/assets/admin/css/jquery.rtnotify.css" rel="stylesheet">
+  <!--  Scripts-->
+  <script src="/assets/admin/js/jquery.rtnotify.js"></script>
 </head>
 <body>
-	
-			
+		
+		
 		
 			@yield('content')
 	
