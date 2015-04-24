@@ -1,17 +1,17 @@
  <div class="container">
 	<div class="section">
 			<!-- Modal Trigger -->
-	 
-			 <a href="#modal1" class="btn-floating btn-large waves-effect waves-light right btn modal-trigger"
+			<br><br><br>
+			 <a href="#modal1" class="btn-floating btn-large waves-effect waves-light blue right btn modal-trigger"
 			 id="btnmenu" ><i class="mdi-content-add"></i></a>
 				 
 			 <!-- Modal Structure -->
-				<div id="modal1" class="modal menumodal">
+				<div id="modal1" class="modal mymodal">
 					<form class="col s12" action="/admin/addmenu" method="post" enctype="multipart/form-data">
 						<input id="csrf_token" type="hidden" name="_token" value="{{ csrf_token() }}"/>	
 									  
 						 <div class="modal-content">
-							 <h4 class="center">Menu</h4>
+							 <h4 class="center menuheading">Menu</h4>
 							   
 							   <div class="row">
 									@include('errors.validation')
@@ -26,14 +26,14 @@
 										
 										  <div class="row">
 											<div class="input-field col s12">
-											  <input name="name" id="name" type="text" class="validate">
+											  <input name="name" value="{{Input::old('name')}}" id="name" type="text" class="validate">
 											  <label for="name">Name</label>
 											</div>
 										  </div>
 										  
 										  <div class="row">
 											<div class="input-field col s12">
-											  <input id="path" name="path" type="text" class="validate">
+											  <input id="path" name="path" value="{{Input::old('path')}}" type="text" class="validate">
 											  <label for="path">Path</label>
 											</div>
 										  </div>
@@ -50,7 +50,7 @@
 								</div>
 								
 								<div class="modal-footer">
-									<button class="waves-effect waves-teal btn-flat" type="submit" name="action">Save</button>
+									<button class="waves-effect waves-teal btn-flat savemenu" type="submit">Save</button>
 								  <button class="waves-effect waves-teal btn-flat modal-close" type="button" name="action">Cancel</button>
 								</div>
 					 </form>

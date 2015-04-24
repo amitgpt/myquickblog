@@ -12,70 +12,72 @@ window.onload = function() {
  <div class="container">
         <div class="section">
 			<!-- Modal Trigger -->
-			 <a href="#modal1"class="btn-floating btn-large waves-effect waves-light right btn modal-trigger" id="btnpost" ><i class="mdi-content-add"></i></a>	</br> 
+			<br><br><br>
+			 <a href="#modal1" class="btn-floating btn-large waves-effect waves-light blue right btn modal-trigger" id="btnpost" ><i class="mdi-content-add"></i></a>	<br> 
 				 <!-- Modal Structure -->
+				 
 					<div id="modal1" class="modal mymodal">
+						<form class="col s12" action="/admin/addpostcontent" method="post" id="formid" enctype="multipart/form-data">
+						  <input id="csrf_token" type="hidden" name="_token" value="{{ csrf_token() }}">	
 						<div class="modal-content">
-						  <h4 class="center">Post Content</h4>
+						  <h5 class="center postcontent">Post Content</h5>
 						  <div class="row">
 							@include('errors.validation')
-						 </div>
-						<div class="row">
-							<form class="col s12" action="/admin/addpostcontent" method="post" id="formid" enctype="multipart/form-data">
-								<input id="csrf_token" type="hidden" name="_token" value="{{ csrf_token() }}">	
-									 
-									 <div class="row">
-										<div class="input-field col s12">
-										  <input type="hidden" name="id" class="id"/>
-										</div>
-									  </div>
-									
-									  <div class="row">
-										<div class="input-field col s12">
-										  <input name="title" class="title" type="text" class="validate">
-										  <label for="title">Title</label>
-										</div>
-									  </div>
-									  
-									  <div class="row">
-										<div class="input-field col s12">
-										  <input class="sub_title" name="sub_title" type="text" class="validate">
-										  <label for="sub_title">Sub-Title</label>
-										</div>
-									  </div>
-									  
-									   <div class="row">
-											<div class="input-field col s12">
-											  <textarea class="content" name="content" class="materialize-textarea"></textarea>
-											</div>
-										</div>
-									  
-									  <div class="row">
-										<div class="file-field input-field">
-										  <input class="file-path validate" type="text"/>
-										  <div class="btn">
-											<span>File</span>
-											<input type="file" name="file"/>
-										  </div>
-										  <img src="" width="120px" height="80px" class="postimage">
-										</div>
-									  </div>
-									  
-										<div class="row">
-											<p>
-											  <input type="checkbox" name="checkbox" class="filled-in" class="filled-in-box"/>
-											  <label for="filled-in-box">Status</label>
-											</p>
-										</div>
+						 </div> 
+							 <div class="row">
+								<div class="input-field col s12">
+								  <input type="hidden" name="id" class="id myinput"/>
+								  <input name="hiddentitle" class="title myinput" type="hidden">
+								</div>
+							  </div>
+							
+							  <div class="row">
+								<div class="input-field col s12">
+								  <input name="title" class="title myinput validate" value="{{Input::old('title')}}" type="text">
+								  <label for="title">Title</label>
+								</div>
+							  </div>
+							  
+							  <div class="row">
+								<div class="input-field col s12">
+								  <input class="sub_title myinput validate" name="sub_title" value="{{Input::old('sub_title')}}" type="text">
+								  <label for="sub_title">Sub-Title</label>
+								</div>
+							  </div>
+							  
+							   <div class="row">
+									<div class="input-field col s12">
+									  <textarea class="content myinput materialize-textarea" name="content" value="{{Input::old('content')}}"></textarea>
 									</div>
 								</div>
-									<div class="modal-footer">
-										 <button class="waves-effect waves-teal btn-flat" type="submit" name="action">Save</button>
-									  <button class="waves-effect waves-teal btn-flat modal-close" type="button" name="action">Cancel</button>
-									 </div>
+							  
+							  <div class="row">
+								<div class="file-field input-field">
+								  <input class="file-path validate " type="text"/>
+								  <div class="btn">
+									<span>File</span>
+									<input type="file" name="file" class="myinput" value="{{Input::old('file')}}" />
+								  </div>
+								  <img src="" width="120px" height="80px" class="postimage">
+								</div>
+							  </div>
+							  
+								<div class="row">
+									<p>
+									  <input type="checkbox" name="checkbox" class="filled-in myinput"  id="filled-in-box"/>
+										<label for="filled-in-box">Status</label>
+									</p>
+								</div>
+							</div>
+						
+							<div class="modal-footer">
+								 <button class="waves-effect waves-teal btn-flat postbtn" type="submit">Save</button>
+							  <button class="waves-effect waves-teal btn-flat modal-close" type="button" name="action">Cancel</button>
+							 </div>
 						
 						 </form>
 					</div>
+					
 				<!-- End Modal Structure -->
 						<div class="responsive-table col s10"  style="margin-top:25px;   padding-left:10rem;">
 							<table>
@@ -97,7 +99,7 @@ window.onload = function() {
 									<td>{{$i++}}</td>
 									<td>{{$getpost->title}}</td>
 									<td>{{$getpost->sub_title}}</td>
-									<td>{{$getpost->content}}</td>
+									<td>{{--*/echo $getpost->content/*--}}</td>
 									@if($getpost->status==1)
 									<td>Active</td>
 									@else
@@ -109,6 +111,9 @@ window.onload = function() {
 								</tbody>
 								@endforeach
 						   </table>
+						    <div class="right">
+									{!! $post->render() !!}
+							</div>
 						</div>
 	</div>
 </div>

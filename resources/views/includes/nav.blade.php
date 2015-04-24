@@ -10,7 +10,6 @@
 		<ul id="nav-mobile" class="side-nav blue">
 		<li><a class="white-text" href="{{URL::to('')}}">Home</a></li>
         <li><a class="white-text" href="{{URL::to('/about')}}">About</a></li>
-        <li><a class="white-text" href="{{URL::to('/post')}}">Sample Post</a></li>
         <li><a class="white-text" href="{{URL::to('/contact')}}">Contact</a></li>
       </ul>
      

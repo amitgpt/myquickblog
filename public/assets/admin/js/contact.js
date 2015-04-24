@@ -1,6 +1,8 @@
 $( document ).ready(function() {
 	$('#btncontact').click(function(){
 		$('#modal1').openModal();
+		$('.contactheading').text('Add Contact Content');
+		$('.savecontact').text('Add');
 		$('.err').hide();
 		$('#id').val('');
 		$('#title').val('');
@@ -14,6 +16,8 @@ $( document ).ready(function() {
 
 	$('.updatecontact').click(function(){
 		$('#modal1').openModal();
+		$('.contactheading').text('Update Contact Content');
+		$('.savecontact').text('Update');
 		$('#contimage').show();
 		$('.err').hide();
 		$('#id').val($(this).attr('data-id'));

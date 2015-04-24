@@ -1,33 +1,33 @@
  <div class="container">
         <div class="section">
 			 <!-- Modal Trigger -->
-			 
-			   <a href="#modal1"class="btn-floating btn-large waves-effect waves-light right btn modal-trigger " id="btnadd" ><i class="mdi-content-add"></i></a>
+				<br><br><br>
+			   <a href="#modal1" class="btn-floating btn-large waves-effect waves-light blue right btn modal-trigger  " id="btnadd" ><i class="mdi-content-add"></i></a>
 				<!-- Modal Trigger -->
 			  <!-- Modal Structure -->
 			  <div id="modal1" class="modal mymodal">
 			  <form class="col s12" action="/admin/addhomecontent" method="post" enctype="multipart/form-data">
 				<input id="csrf_token" type="hidden" name="_token" value="{{ csrf_token() }}"/>	
 				<div class="modal-content">
-				  <h4 class="center">Home Content</h4>
+				  <h5 class="center modalheading">Home Content</h5>
 						<div class="row">
 							@include('errors.validation')
 						</div>
 						<div class="row">
 							<div class="input-field col s9">
-							  <input type="hidden" name="id" class="id"/>
+							  <input type="hidden" name="id" class="id myinput"/>
 							</div>
 						  </div>
 						<div class="row">
 							<div class="input-field col s6">
-							  <input name="title" class="title" value="{{ Input::old('title') }}" type="text" class="validate">
+							  <input name="title" class="title myinput validate"  type="text" value="{{Input::old('title')}}">
 							  <label for="title">Title</label>
 							</div>
 						  </div>
 						  
 						  <div class="row">
 							<div class="input-field col s6">
-							  <input class="sub_title" name="sub_title" value="{{ Input::old('sub_title') }}" type="text" class="validate">
+							  <input class="sub_title myinput validate" name="sub_title" value="{{Input::old('sub_title')}}" type="text">
 							  <label for="sub_title">Sub-Title</label>
 							</div>
 						  </div>
@@ -36,7 +36,7 @@
 							  <input class="file-path validate" type="text"/>
 								  <div class="btn">
 									<span>File</span>
-									<input type="file" name="file"/>
+									<input type="file" name="file" class="myinput"/>
 								  </div>
 							  <img src="" width="120px" height="80px" class="homimage">
 							</div>
@@ -44,20 +44,20 @@
 								  
 							<div class="row">
 								<p>
-								  <input type="checkbox" name="checkbox" class="filled-in" class="filled-in-box"/>
+								  <input type="checkbox" name="checkbox" class="filled-in myinput" id="filled-in-box"/>
 								  <label for="filled-in-box">Status</label>
 								</p>
 							</div>
 				</div>
 				<div class="modal-footer">
-					<button class="waves-effect waves-teal btn-flat" type="submit" name="action">Save</button>
-				  <button class="waves-effect waves-teal btn-flat modal-close" type="button">Cancel</button>
-				</form>		  
+					<button class="waves-effect waves-teal btn-flat addupdate" type="submit"></button>
+				  <button class="waves-effect waves-teal btn-flat modal-close" type="button">Cancel</button>	  
 				</div>
+				</form>	
 			  </div>
 			  <br>
 			  
-		  <div class="responsive-table col s10"  style="margin-top:25px;   padding-left:10rem;">
+		  <div class="responsive-table col s10"  style="margin-top:25px;   padding-left:12rem;">
 			<table>
 				<thead>
 				  <tr>
@@ -87,10 +87,14 @@
 				  </tr>
 				</tbody>
 				@endforeach
+				</table>
+			</div>
+			<div class="right">
+					{!! $home->render() !!}
 			</div>
 		</div>
 	</div>
-	</div>
+	
 					
 	
 	 

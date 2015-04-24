@@ -1,17 +1,22 @@
-@foreach($contact as $getcontact)
+
   <div id="index-banner" class="parallax-container">
     <div class="section no-pad-bot">
       <div class="container">
         <br><br>
-        <h1 class="header center teal-text text-lighten-2">@if(isset($getcontact->title)){{$getcontact->title}}@else Contact Me @endif</h1>
+        <h1 class="header center teal-text text-lighten-2">@if(isset($contact->title)){{$contact->title}}@else Contact Me @endif</h1>
         <div class="row center">
-          <h5 class="header col s12 light">@if(isset($getcontact->sub_title)){{$getcontact->sub_title}}@else Have questions? I have answers (maybe). @endif</h5>
+          <h5 class="header col s12 light">@if(isset($contact->sub_title)){{$contact->sub_title}}@else Have questions? I have answers (maybe). @endif</h5>
         </div>
         <br><br>
 
       </div>
     </div>
-    <div class="parallax"><img src="/assets/front_end/material/img/contact-bg.jpg" alt="Unsplashed background img 2"></div>
+    <div class="parallax">
+		@if(isset($contact))
+			<img src="/images/{{$contact->image}}" alt="Unsplashed background img 2"></div>
+		@else
+			<img src="/assets/front_end/material/img/contact-bg.jpg" alt="Unsplashed background img 2"></div>
+		@endif
   </div>
 
 
@@ -21,7 +26,7 @@
 		<div class="row">
         <div class="col s12 center">
            <a href="post">
-				<p class="black-text">@if(isset($getcontact->content)){{$getcontact->content}}@else Want to get in touch with me? Fill out the form below to send me a message and I will try to get back to you within 24 hours! @endif</p>
+				<p class="black-text">@if(isset($contact->content)){{--*/echo $contact->content/*--}}@else Want to get in touch with me? Fill out the form below to send me a message and I will try to get back to you within 24 hours! @endif</p>
             </a>
         </div>
       </div>
@@ -75,4 +80,4 @@
       
     </div>
   </div>
-@endforeach
+

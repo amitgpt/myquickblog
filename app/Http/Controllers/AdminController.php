@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use App\Fileentry;
 use Session;
+use App\Helpers\Helper as Helper;
 
 use App\Contus;
 use Auth;
@@ -78,62 +79,44 @@ class AdminController extends Controller {
 	//Home View
 	public function home()
 	{
-		$home = Homes::all();
+		$home = Homes::paginate(5);
 		return view('admin')->with('page', 'home')->with('home', $home);
 	}
 	
 	//Add Home Content
 	public function addhomecontent()
 	{
-		$validator = Validator::make(
-					[
-						'title'     => Input::get('title'),
-						'sub_title' => Input::get('sub_title')
-					],
-					[
-						'title'     => 'required',
-						'sub_title' => 'required'
-					]
-           );
-          if(Input::hasFile('file')){
-			  $validator = Validator::make(
-					[
-						'file'     =>Input::file('file')
-					],
-					[
-						'file'     => 'required|image|mimes:jpeg,jpg,png,bmp'
-						
-					]);
-		}
+			$validator = Helper::homeValidation();
+			
 			if ($validator->fails()){
-					return redirect()->back()->withErrors($validator->errors());
-				}else{
-						if(!Input::has('id')){
-							$home = new Homes;
-						}else{
-							$home = Homes::find(Input::get('id'));
-						}
-						
-						
-						
-						if(Input::hasFile('file')){
-							$file = Input::file('file');
-							$destinationPath = 'images/';
-							$extension = $file->getClientOriginalExtension(); 
-							$filename = str_random(6).".".$extension;
-							$upload_success = $file->move($destinationPath, $filename);
-							$home->image = $filename;
-						}
-							$home->title = Input::get('title');
-							$home->sub_title = Input::get('sub_title');
-							
-							if(Input::get('checkbox')){
-								Homes::where('status','=','1')->update(array('status'=> '0'));
-							$home->status = '1';
-							}
-							$home->save();
-							return redirect()->back();
-			     }
+					return redirect()->back()->withErrors($validator->errors())->withInput();
+				}
+			if(!Input::has('id')){
+				$home = new Homes;
+			}else{
+				$home = Homes::find(Input::get('id'));
+			}
+			if(Input::hasFile('file')){
+				$filename =	Helper::uploadImageFile();
+				$home->image = $filename;
+			}
+				$home->title = Input::get('title');
+				$home->sub_title = Input::get('sub_title');
+				
+				if(Input::get('checkbox')){
+					Homes::where('status','=','1')->update(array('status'=> '0'));
+				$home->status = '1';
+				}
+			if($home->save()){
+				$notification = Helper::successNotification();
+				Session::flash('notification',$notification);
+				return redirect()->back();
+			}else{
+				$notification=Helper::failNotification();
+				Session::flash('notification',$notification);
+				return redirect()->back();
+			}
+			     
 	
 	}
 	
@@ -143,68 +126,57 @@ class AdminController extends Controller {
 		$deleteid = Homes::find($id);
 		if($deleteid->id){
 			$deleteid->delete();
+			$notification = Helper::deleteNotification();
+			Session::flash('notification',$notification);
+			return redirect()->back();
 			}
+			$notification=Helper::failNotification();
+			Session::flash('notification',$notification);
 			return redirect()->back();
 	}
 	
 	//About View
 	public function about()
 	{
-		$about = Abouts::all();
+		$about = Abouts::paginate(5);
 		return view('admin')->with('page', 'about')->with('about', $about);
 	}
 	
 	//Add About Content
 	public function addaboutcontent()
 	{
-		$validator = Validator::make(
-					[
-						'title'     => Input::get('title'),
-						'sub_title' => Input::get('sub_title'),
-						'content'   => Input::get('content')
-					],
-					[
-						'title'     => 'required',
-						'sub_title' => 'required',
-						'content'   => 'required'
-					]
-           );
-            if(Input::hasFile('file')){
-			  $validator = Validator::make(
-					[
-						'file'     =>Input::file('file')
-					],
-					[
-						'file'     => 'required|image|mimes:jpeg,jpg,png,bmp'
-						
-					]);
-			}
+			$validator = Helper::aboutValidation();
+			
 			if ($validator->fails()){
-				return redirect()->back()->withErrors($validator->errors());
-				}else{
-					if(!Input::has('id')){
-						$about = new Abouts;
-					}else{
-						$about = Abouts::find(Input::get('id'));
-					}
-					if(Input::hasFile('file')){
-						$file = Input::file('file');
-						$destinationPath = 'images/';
-						$extension = $file->getClientOriginalExtension(); 
-						$filename = str_random(6).".".$extension;
-						$upload_success = $file->move($destinationPath, $filename);
-						$about->image = $filename;
-					}
-						$about->title = Input::get('title');
-						$about->sub_title = Input::get('sub_title');
-						$about->content = Input::get('content');
-						if(Input::get('checkbox')){
-							Abouts::where('status','=','1')->update(array('status'=> '0'));
-						$about->status = '1';
-						}
-						$about->save();
-						return redirect()->back();
-		        }
+				return redirect()->back()->withErrors($validator->errors())->withInput();
+				}
+				
+			if(!Input::has('id')){
+				$about = new Abouts;
+			}else{
+				$about = Abouts::find(Input::get('id'));
+			}
+			if(Input::hasFile('file')){
+				$filename =	Helper::uploadImageFile();
+				$about->image = $filename;
+			}
+				$about->title = Input::get('title');
+				$about->sub_title = Input::get('sub_title');
+				$about->content = Input::get('content');
+				if(Input::get('checkbox')){
+					Abouts::where('status','=','1')->update(array('status'=> '0'));
+				$about->status = '1';
+				}
+			if($about->save()){
+				$notification = Helper::successNotification();
+				Session::flash('notification',$notification);
+				return redirect()->back();
+			}else{
+				$notification=Helper::failNotification();
+				Session::flash('notification',$notification);
+				return redirect()->back();
+			}
+		        
 	
 	}
 	
@@ -214,68 +186,55 @@ class AdminController extends Controller {
 		$deleteid = Abouts::find($id);
 		if($deleteid->id){
 			$deleteid->delete();
+			$notification = Helper::deleteNotification();
+			Session::flash('notification',$notification);
+			return redirect()->back();
 			}
+			$notification=Helper::failNotification();
+			Session::flash('notification',$notification);
 			return redirect()->back();
 	}
 	
 	//Contact View
 	public function contact()
 	{
-		$contact = Contact::all();
+		$contact = Contact::paginate(5);
 		return view('admin')->with('page', 'contact')->with('contact', $contact);
 	}
 	
 	//Add Contact Content
 	public function addcontactcontent()
 	{
-		$validator = Validator::make(
-					[
-						'title'     => Input::get('title'),
-						'sub_title' => Input::get('sub_title'),
-						'content'   => Input::get('content')
-					],
-					[
-						'title'     => 'required',
-						'sub_title' => 'required',
-						'content'   => 'required'
-					]
-           );
-            if(Input::hasFile('file')){
-			  $validator = Validator::make(
-					[
-						'file'     =>Input::file('file')
-					],
-					[
-						'file'     => 'required|image|mimes:jpeg,jpg,png,bmp'
-						
-					]);
-			}
+			$validator = Helper::contactValidation();
 			if ($validator->fails()){
-				return redirect()->back()->withErrors($validator->errors());
+				return redirect()->back()->withErrors($validator->errors())->withInput();
+				}
+			if(!Input::has('id')){
+				$contact = new Contact;
+			}else{
+				$contact = Contact::find(Input::get('id'));
+			}
+			if(Input::hasFile('file')){
+				$filename =	Helper::uploadImageFile();
+				$contact->image = $filename;
+			}
+				$contact->title = Input::get('title');
+				$contact->sub_title = Input::get('sub_title');
+				$contact->content = Input::get('content');
+				if(Input::get('checkbox')){
+					Contact::where('status','=','1')->update(array('status'=> '0'));
+				$contact->status = '1';
+				}
+				
+				if($contact->save()){
+				$notification = Helper::successNotification();
+				Session::flash('notification',$notification);
+				return redirect()->back();
 				}else{
-						if(!Input::has('id')){
-							$contact = new Contact;
-						}else{
-							$contact = Contact::find(Input::get('id'));
-						}
-						if(Input::hasFile('file')){
-							$file = Input::file('file');
-							$destinationPath = 'images/';
-							$extension = $file->getClientOriginalExtension(); 
-							$filename = str_random(6).".".$extension;
-							$upload_success = $file->move($destinationPath, $filename);
-							$contact->image = $filename;
-						}
-							$contact->title = Input::get('title');
-							$contact->sub_title = Input::get('sub_title');
-							$contact->content = Input::get('content');
-							if(Input::get('checkbox')){
-								Contact::where('status','=','1')->update(array('status'=> '0'));
-							$contact->status = '1';
-							}
-							$contact->save();
-							return redirect()->back();
-		        }
+					$notification=Helper::failNotification();
+					Session::flash('notification',$notification);
+					return redirect()->back();
+				}
 	
 	}
 	
@@ -285,68 +244,55 @@ class AdminController extends Controller {
 		$deleteid = Contact::find($id);
 		if($deleteid->id){
 			$deleteid->delete();
-			}
+			$notification = Helper::deleteNotification();
+			Session::flash('notification',$notification);
 			return redirect()->back();
+		}
+		$notification=Helper::failNotification();
+		Session::flash('notification',$notification);
+		return redirect()->back();
 	}
 	
 	//Post View
 	public function post()
 	{
-		$post = Posts::all();
+		$post = Posts::paginate(5);
 		return view('admin')->with('page', 'post')->with('post', $post);
 	}
 	
 	//Add Post Content
 	public function addpostcontent()
 	{
-		$validator = Validator::make(
-					[
-						'title'     => Input::get('title'),
-						'sub_title' => Input::get('sub_title'),
-						'content'   => Input::get('content')
-					],
-					[
-						'title'     => 'required|unique:post',
-						'sub_title' => 'required',
-						'content'   => 'required'
-					]
-           );
-            if(Input::hasFile('file')){
-			  $validator = Validator::make(
-					[
-						'file'     =>Input::file('file')
-					],
-					[
-						'file'     => 'required|image|mimes:jpeg,jpg,png,bmp'
-						
-					]);
-		}
+			$validator = Helper::postValidation();
 			if ($validator->fails()){
-				return redirect()->back()->withErrors($validator->errors());
+				return redirect()->back()->withErrors($validator->errors())->withInput();
+				}
+			if(!Input::has('id')){
+				$post = new Posts;
+			}else{
+				$post = Posts::find(Input::get('id'));
+			}
+			if(Input::hasFile('file')){
+				$filename =	Helper::uploadImageFile();
+				$post->image = $filename;
+			}
+				$post->title = Input::get('title');
+				$post->sub_title = Input::get('sub_title');
+				$post->content = Input::get('content');
+				if(Input::get('checkbox')){
+					Posts::where('status','=','1')->update(array('status'=> '0'));
+				$post->status = '1';
+				}
+				if($post->save()){
+				$notification = Helper::successNotification();
+				Session::flash('notification',$notification);
+				return redirect()->back();
 				}else{
-					if(!Input::has('id')){
-						$post = new Posts;
-					}else{
-						$post = Posts::find(Input::get('id'));
-					}
-					if(Input::hasFile('file')){
-						$file = Input::file('file');
-						$destinationPath = 'images/';
-						$extension = $file->getClientOriginalExtension(); 
-						$filename = str_random(6).".".$extension;
-						$upload_success = $file->move($destinationPath, $filename);
-						$post->image = $filename;
-					}
-						$post->title = Input::get('title');
-						$post->sub_title = Input::get('sub_title');
-						$post->content = Input::get('content');
-						if(Input::get('checkbox')){
-							Posts::where('status','=','1')->update(array('status'=> '0'));
-						$post->status = '1';
-						}
-						$post->save();
-						return redirect()->back();
-		}
+					$notification=Helper::failNotification();
+					Session::flash('notification',$notification);
+					return redirect()->back();
+				}
+		
 	
 	}
 	
@@ -356,8 +302,13 @@ class AdminController extends Controller {
 		$deleteid = Posts::find($id);
 		if($deleteid->id){
 			$deleteid->delete();
-			}
+			$notification = Helper::deleteNotification();
+			Session::flash('notification',$notification);
 			return redirect()->back();
+		}
+		$notification=Helper::failNotification();
+		Session::flash('notification',$notification);
+		return redirect()->back();
 	}
 	
 	//Menu View
@@ -382,22 +333,29 @@ class AdminController extends Controller {
            );
            
 			if ($validator->fails()){
-				return redirect()->back()->withErrors($validator->errors());
-				}else{
-					if(!Input::has('id')){
-						$menu = new Menus;
-					}else{
-						$menu = Menus::find(Input::get('id'));
-					}
-					$menu->name = Input::get('name');
-					$menu->path = Input::get('path');
-					if(Input::get('checkbox')){
-						Menus::where('status','=','1')->update(array('status'=> '0'));
-					$menu->status = '1';
-					}
-					$menu->save();
-					return redirect()->back();
-		        }
+				return redirect()->back()->withErrors($validator->errors())->withInput();
+				}
+			if(!Input::has('id')){
+				$menu = new Menus;
+			}else{
+				$menu = Menus::find(Input::get('id'));
+			}
+			$menu->name = Input::get('name');
+			$menu->path = Input::get('path');
+			if(Input::get('checkbox')){
+				Menus::where('status','=','1')->update(array('status'=> '0'));
+			$menu->status = '1';
+			}
+			if($menu->save()){
+				$notification = Helper::successNotification();
+				Session::flash('notification',$notification);
+				return redirect()->back();
+			}else{
+				$notification=Helper::failNotification();
+				Session::flash('notification',$notification);
+				return redirect()->back();
+			}
+		        
 	}
 	
 	//Delete Menu
@@ -406,8 +364,13 @@ class AdminController extends Controller {
 		$deleteid = Menus::find($id);
 		if($deleteid->id){
 			$deleteid->delete();
-			}
+			$notification = Helper::deleteNotification();
+			Session::flash('notification',$notification);
 			return redirect()->back();
+		}
+		$notification=Helper::failNotification();
+		Session::flash('notification',$notification);
+		return redirect()->back();
 	}
 	
 }

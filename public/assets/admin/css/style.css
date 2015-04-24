@@ -55,15 +55,25 @@ footer.page-footer {
 }
 
 .modal.menumodal {
-    max-height: 92%;
+
     width:40%;
     overflow: hidden;
    
 }
 .modal.mymodal {
 	
-    overflow-x: hidden;
+    max-height: none;
+    overflow: hidden;
+    position:absolute;
    
+}
+input[type="text"].myinput[type="text"]{
+	margin:0 0 -13px;
+}
+.container.topnavcontainer{
+    height: 4rem;
+    width: 97%;
+    position:fixed;
 }
 
 

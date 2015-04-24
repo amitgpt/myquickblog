@@ -1,6 +1,8 @@
 $( document ).ready(function() {
 	$('#btnmenu').click(function(){
 		$('#modal1').openModal();
+		$('.menuheading').text('Add Menu');
+		$('.savemenu').text('Add');
 		$('.err').hide();
 		$('#id').val('');
 		$('#name').val('');
@@ -8,11 +10,14 @@ $( document ).ready(function() {
 		$('#filled-in-box').val('');
 		
 		
+		
 	});
 
 
 	$('.updatemenu').click(function(){
 		$('#modal1').openModal();
+		$('.menuheading').text('Update Menu');
+		$('.savemenu').text('Update');
 		$('.err').hide();
 		$('#id').val($(this).attr('data-id'));
 		$('#name').val($(this).attr('data-name'));

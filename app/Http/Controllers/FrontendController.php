@@ -28,7 +28,7 @@ class FrontendController extends Controller {
 	{
 		$home = Homes::where('status', '=', '1')->first();
 		$post = Posts::all();
-		$menu = Menus::all();
+		$menu = Menus::where('status', '=', '1')->get();
 		return view('main')->with('page', 'index')->with('home', $home)->with('post', $post)->with('menu', $menu);
 	    
 	}
@@ -36,8 +36,8 @@ class FrontendController extends Controller {
 	//About View
 	public function aboutView()
 	{
-		$about = Abouts::all();
-		$menu = Menus::all();
+		$about = Abouts::where('status', '=', '1')->first();
+		$menu = Menus::where('status', '=', '1')->get();
 		return view('main')->with('page', 'about')->with('about', $about)->with('menu', $menu);
 	}
 	
@@ -45,8 +45,8 @@ class FrontendController extends Controller {
 	//Contact View
 	public function contactView()
 	{
-		$contact = Contact::all();
-		$menu = Menus::all();
+		$contact = Contact::where('status', '=', '1')->first();
+		$menu = Menus::where('status', '=', '1')->get();
 		return view('main')->with('page', 'contact')->with('contact', $contact)->with('menu', $menu);
 	}
 	
@@ -54,7 +54,7 @@ class FrontendController extends Controller {
 	public function postView($id=null, $slug=null)
 	{
 		$slug = Posts::all();
-		$menu = Menus::all();
+		$menu = Menus::where('status', '=', '1')->get();
 		if($id){
 		$postid = Posts::where('id',$id)->first();
 		return view('main')->with('page', 'post')->with('postid', $postid)->with('menu', $menu)->with('slug', $slug);

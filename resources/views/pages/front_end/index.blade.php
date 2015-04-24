@@ -13,7 +13,9 @@
 
       </div>
     </div>
-    <div class="parallax"><img src="/assets/front_end/material/img/background1.jpg" alt="Unsplashed background img 2"></div>
+    <div class="parallax">@if(isset($home->image))<img src="/images/{{$home->image}}" alt="Unsplashed background img 2">
+		@else<img src="/assets/front_end/material/img/background1.jpg" alt="Unsplashed background img 2">
+		@endif</div>
   </div>
 
 
@@ -42,7 +44,7 @@
 					$postdate = date('F j, Y',strtotime($date));
 					$time = $splitTimeStamp[1];
 				/*--}}
-				   <p class="left-align light">Posted by <a href="#">Clean Blog </a>@if(isset($postdate)){{$postdate}} @else on August 24, 2014 @endif</p>
+				   <p class="left-align light">Posted @if(isset($postdate)){{$postdate}} @else on August 24, 2014 @endif</p>
 			</div>
 		  </div>
       @endforeach
